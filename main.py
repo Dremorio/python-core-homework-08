@@ -25,18 +25,11 @@ def get_birthdays_per_week(users):
         if user_birthday - current_date > days_of_week or user_birthday < current_date:
             continue
 
-        birthday_weekday = user_birthday.weekday()
+        if user_birthday.weekday() >= 5:
+            user_birthday += timedelta(days=7 - user_birthday.weekday())
+        birthday_weekday = user_birthday.strftime('%A')
 
-        if birthday_weekday == 0 or birthday_weekday == 5 or birthday_weekday == 6:
-            users_list["Monday"].append(user.get("name"))
-        elif birthday_weekday == 1:
-            users_list["Tuesday"].append(user.get("name"))
-        elif birthday_weekday == 2:
-            users_list["Wednesday"].append(user.get("name"))
-        elif birthday_weekday == 3:
-            users_list["Thursday"].append(user.get("name"))
-        elif birthday_weekday == 4:
-            users_list["Friday"].append(user.get("name"))
+        users_list[birthday_weekday].append(user.get("name"))
 
     return users_list
 
